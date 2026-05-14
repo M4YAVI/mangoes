@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-cream: #fbf0d7;
+  --color-brand-dark-green: #1B330F;
+  --color-brand-primary-green: #2E4D25;
+  --color-brand-leaf-green: #3F6322;
+  --color-brand-olive: #4F5939;
+  --color-brand-orange: #DE8A24;
+
+  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background-color: var(--color-brand-cream);
+  color: var(--color-brand-primary-green);
+  font-family: var(--font-sans), sans-serif;
+}
+
+button, a, select, input[type="submit"], input[type="button"] {
+  cursor: pointer;
+}
