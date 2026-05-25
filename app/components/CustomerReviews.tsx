@@ -5,7 +5,7 @@ export default function CustomerReviews() {
     {
       name: "Srinivas Rao",
       role: "Miyapur, Hyderabad",
-      text: "The Banganapalli mangoes were incredibly sweet and fresh. Reminded me of my childhood visits to the village orchards. Highly recommended!",
+      text: "The Banganapalle mangoes were incredibly sweet and fresh. Reminded me of my childhood visits to the village orchards. Highly recommended!",
       stars: 5
     },
     {

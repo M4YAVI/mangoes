@@ -1,16 +1,17 @@
 import Link from "next/link";
-import { Globe, Send, Share2, Mail, Phone, MapPin } from "lucide-react";
+import { Globe, Send, Share2 } from "lucide-react";
+import { SITE_CONFIG } from "@/app/lib/config";
 
 export default function Footer() {
   return (
     <footer className="bg-[#1B330F] text-brand-cream pt-12 pb-8 px-6 lg:px-12">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
-          <div className="space-y-6">
-            <h2 className="font-[family-name:var(--font-telugu)] text-4xl font-bold">పల్లె మామిడి</h2>
+          <div className="space-y-6 col-span-2 md:col-span-1">
+            <h2 className="font-[family-name:var(--font-telugu)] text-4xl font-bold">{SITE_CONFIG.teluguName}</h2>
             <p className="text-brand-cream/60 text-sm leading-relaxed">
-              Bringing the authentic taste of naturally ripened village mangoes straight to your doorstep. Pure, chemical-free, and delicious.
+              {SITE_CONFIG.tagline}
             </p>
             <div className="flex items-center space-x-4">
               {[Globe, Send, Share2].map((Icon, i) => (
@@ -27,54 +28,32 @@ export default function Footer() {
             <ul className="space-y-4 text-brand-cream/60 text-sm font-medium">
               <li><Link href="/" className="hover:text-brand-cream transition-colors">Home</Link></li>
               <li><Link href="/mangoes" className="hover:text-brand-cream transition-colors">Our Mangoes</Link></li>
-              <li><a href="#about" className="hover:text-brand-cream transition-colors">About Us</a></li>
+              <li><Link href="/track" className="hover:text-brand-cream transition-colors">Track Order</Link></li>
+              <li><Link href="/about" className="hover:text-brand-cream transition-colors">About Us</Link></li>
               <li><a href="#why" className="hover:text-brand-cream transition-colors">Why Choose Us</a></li>
             </ul>
           </div>
 
-          {/* Contact Info */}
+          {/* Policies */}
           <div className="space-y-6">
-            <h3 className="font-bold text-xl">Contact Us</h3>
-            <ul className="space-y-4 text-brand-cream/60 text-sm">
-              <li className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 shrink-0 text-[#D27E1C]" />
-                <span>Palle Mamidi Orchards, Andhra Pradesh, India</span>
-              </li>
-              <li className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 shrink-0 text-[#D27E1C]" />
-                <span>+91 98765 43210</span>
-              </li>
-              <li className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 shrink-0 text-[#D27E1C]" />
-                <span>orders@pallemamidi.com</span>
-              </li>
+            <h3 className="font-bold text-xl">Policies & Info</h3>
+            <ul className="space-y-4 text-brand-cream/60 text-sm font-medium">
+              <li><Link href="/privacy-policy" className="hover:text-brand-cream transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms-and-conditions" className="hover:text-brand-cream transition-colors">Terms & Conditions</Link></li>
+              <li><Link href="/refund-policy" className="hover:text-brand-cream transition-colors">Refund Policy</Link></li>
+              <li><Link href="/shipping-policy" className="hover:text-brand-cream transition-colors">Shipping Policy</Link></li>
+              <li><Link href="/contact" className="hover:text-brand-cream transition-colors">Contact</Link></li>
             </ul>
-          </div>
-
-          {/* Newsletter */}
-          <div className="space-y-6">
-            <h3 className="font-bold text-xl">Stay Updated</h3>
-            <p className="text-brand-cream/60 text-sm leading-relaxed">
-              Subscribe to get notified about new harvests and seasonal offers.
-            </p>
-            <div className="flex">
-              <input 
-                type="email" 
-                placeholder="Your Email" 
-                className="bg-white/5 border border-white/10 rounded-l-xl px-4 py-3 text-sm focus:outline-none w-full"
-              />
-              <button className="bg-brand-cream text-[#1B330F] px-6 rounded-r-xl font-bold hover:bg-[#DE8A24] hover:text-white transition-all">
-                Join
-              </button>
-            </div>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-brand-cream/30 font-bold uppercase tracking-widest">
-          <p>© 2026 Palle Mamidi. All Rights Reserved.</p>
-          <div className="flex items-center space-x-8">
-            <a href="#" className="hover:text-brand-cream transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-brand-cream transition-colors">Terms of Service</a>
+        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row w-full justify-between items-center gap-6 text-xs text-brand-cream/40 font-bold tracking-widest text-center md:text-left">
+          <p className="uppercase">© {new Date().getFullYear()} {SITE_CONFIG.name}. All Rights Reserved.</p>
+          <div className="flex justify-center md:justify-end">
+            <p className="text-[#D27E1C] uppercase font-bold flex items-center space-x-2">
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+              <span>{SITE_CONFIG.payment.gatewayInfo}</span>
+            </p>
           </div>
         </div>
       </div>

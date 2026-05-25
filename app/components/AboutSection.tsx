@@ -27,7 +27,7 @@ export default function AboutSection() {
         <div className="flex-1 relative">
           <div className="aspect-square rounded-3xl bg-brand-primary-green/5 overflow-hidden border border-[#1B330F]/5 p-8">
             <img 
-              src="/about-mango.png" 
+              src="/mangoes/mango-6.png" 
               alt="Natural Mangoes" 
               className="w-full h-full object-contain hover:scale-105 transition-transform duration-700"
             />

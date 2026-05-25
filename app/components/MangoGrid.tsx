@@ -1,66 +1,12 @@
-"use client";
-
 import Link from "next/link";
 import MangoCard from "./MangoCard";
-import { useCartStore } from "@/app/store/useCartStore";
+import { getCatalog, type CatalogEntry } from "@/app/lib/catalog";
+import { hashNumericId } from "@/app/lib/hash";
 
-export const MANGO_VARIETIES = [
-  {
-    id: 1,
-    name: "Banganapalli",
-    description: "Sweet, fragrant, and rich in juice. The pride of South India.",
-    image: "/mangoes/mango-1.png",
-    pricePerKg: 120,
-  },
-  {
-    id: 2,
-    name: "Rasalu",
-    description: "Extremely sweet and juicy, a traditional royal favorite.",
-    image: "/mangoes/mango-2.png",
-    pricePerKg: 150,
-  },
-  {
-    id: 3,
-    name: "Totapuri",
-    description: "Unique oblong shape, perfect for pickles and fresh salads.",
-    image: "/mangoes/mango-3.png",
-    pricePerKg: 80,
-  },
-  {
-    id: 4,
-    name: "Ugadi Mango",
-    description: "Tangy, firm, and essential for traditional festive dishes.",
-    image: "/mangoes/mango-4.png",
-    pricePerKg: 100,
-  },
-  {
-    id: 5,
-    name: "Suvarnarekha",
-    description: "Beautiful golden skin with a sweet, fiberless pulp.",
-    image: "/mangoes/mango-5.png",
-    pricePerKg: 130,
-  },
-  {
-    id: 6,
-    name: "Imam Pasand",
-    description: "The 'King of Mangoes', creamy, fiberless, and ultra-premium.",
-    image: "/mangoes/mango-6.png",
-    pricePerKg: 250,
-  },
-  {
-    id: 7,
-    name: "Mallika",
-    description: "Exquisite hybrid, firm and exceptionally sweet with no fiber.",
-    image: "/mangoes/mango-7.png",
-    pricePerKg: 180,
-  },
-];
-
-export default function MangoGrid({ limit }: { limit?: number }) {
-  const filteredVarieties = MANGO_VARIETIES;
-
-  const displayVarieties = limit ? filteredVarieties.slice(0, limit) : filteredVarieties;
-  const showExplore = limit && filteredVarieties.length > limit;
+export default async function MangoGrid({ limit }: { limit?: number }) {
+  const catalog = await getCatalog();
+  const displayVarieties = limit ? catalog.slice(0, limit) : catalog;
+  const showExplore = limit && catalog.length > limit;
 
   return (
     <section id="varieties" className="py-8 px-6 lg:px-12 bg-brand-cream">
@@ -74,25 +20,23 @@ export default function MangoGrid({ limit }: { limit?: number }) {
         </div>
 
         {displayVarieties.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
             {displayVarieties.map((mango) => (
-              <MangoCard key={mango.id} mango={mango} />
+              <MangoCard key={mango.id} mango={cardShape(mango)} />
             ))}
           </div>
         ) : (
           <div className="text-center py-20 bg-white/40 rounded-3xl border border-brand-primary-green/5">
             <h3 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-brand-primary-green mb-2">
-              No mangoes found
+              No mangoes available right now
             </h3>
-            <p className="text-brand-primary-green/60">
-              Check back soon for more varieties!
-            </p>
+            <p className="text-brand-primary-green/60">Check back soon for fresh seasonal arrivals.</p>
           </div>
         )}
-        
+
         {showExplore && (
           <div className="mt-10 flex justify-center">
-            <Link 
+            <Link
               href="/mangoes"
               className="bg-[#1B330F] text-brand-cream px-10 py-4 rounded-full font-bold flex items-center space-x-3 hover:bg-[#2E4D25] transition-all shadow-lg group"
             >
@@ -109,3 +53,17 @@ export default function MangoGrid({ limit }: { limit?: number }) {
     </section>
   );
 }
+
+// Adapter — MangoCard was built around a numeric id and a strict status union.
+function cardShape(entry: CatalogEntry) {
+  return {
+    id: hashNumericId(entry.id),
+    name: entry.name,
+    description: entry.description,
+    image: entry.image,
+    pricePerKg: entry.pricePerKg,
+    allowedWeightsKg: entry.allowedWeightsKg,
+    status: entry.status,
+  };
+}
+

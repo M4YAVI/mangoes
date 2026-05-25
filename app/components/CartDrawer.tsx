@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { X, Trash2, ShoppingBag, ArrowRight, Minus, Plus } from "lucide-react";
+import { X, Trash2, ShoppingBag, ArrowRight, Minus, Plus, Check } from "lucide-react";
 import { useCartStore } from "@/app/store/useCartStore";
 import { useEffect, useState } from "react";
 import CheckoutModal from "./CheckoutModal";
@@ -18,6 +18,9 @@ export default function CartDrawer() {
   if (!isMounted || !_hasHydrated) return null;
 
   const subtotal = items.reduce((acc, item) => acc + item.totalPrice, 0);
+  const totalWeight = items.reduce((acc, item) => acc + (item.weight * item.quantity), 0);
+  const isMinimumWeightMet = totalWeight >= 10;
+  const weightRemaining = Math.max(0, 10 - totalWeight);
 
   return (
     <>
@@ -132,6 +135,40 @@ export default function CartDrawer() {
           {/* Footer */}
           {items.length > 0 && (
             <div className="p-6 bg-white border-t border-[#1B330F]/10 space-y-4">
+              {/* Minimum Weight Requirement Progress Tracker */}
+              {!isMinimumWeightMet ? (
+                <div className="bg-brand-orange/5 border border-brand-orange/20 rounded-2xl p-4 space-y-2 animate-in fade-in duration-300">
+                  <div className="flex justify-between items-center text-xs font-bold text-brand-primary-green">
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-brand-orange animate-pulse" />
+                      Basket Weight: {totalWeight} kg
+                    </span>
+                    <span className="text-brand-orange">Min. 10 kg Required</span>
+                  </div>
+                  
+                  {/* Progress Bar */}
+                  <div className="w-full h-2 bg-brand-primary-green/10 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-brand-orange transition-all duration-500 ease-out" 
+                      style={{ width: `${Math.min((totalWeight / 10) * 100, 100)}%` }}
+                    />
+                  </div>
+                  
+                  <p className="text-[11px] text-brand-primary-green/70 text-center font-medium">
+                    Add <span className="font-bold text-brand-orange">{weightRemaining} kg</span> more of any variety to unlock checkout.
+                  </p>
+                </div>
+              ) : (
+                <div className="bg-green-500/10 border border-green-500/20 rounded-2xl p-3.5 flex items-center space-x-3 text-green-800 text-xs animate-in fade-in duration-300">
+                  <div className="bg-green-500 text-white rounded-full p-1 shrink-0">
+                    <Check className="w-3.5 h-3.5" />
+                  </div>
+                  <div className="flex-1 font-semibold text-brand-primary-green">
+                    Minimum order requirement met! ({totalWeight} kg)
+                  </div>
+                </div>
+              )}
+
               <div className="flex items-center justify-between">
                 <span className="text-brand-primary-green/60 font-medium">Subtotal</span>
                 <span className="text-2xl font-bold text-brand-primary-green font-[family-name:var(--font-playfair)] tabular-nums">
@@ -142,12 +179,19 @@ export default function CartDrawer() {
                 Taxes and shipping calculated at checkout
               </p>
               <button 
-                onClick={() => setIsCheckoutOpen(true)}
-                className="w-full bg-brand-primary-green text-brand-cream py-4 rounded-2xl font-bold flex items-center justify-center space-x-3 hover:shadow-xl transition-all group overflow-hidden relative cursor-pointer"
+                onClick={() => isMinimumWeightMet && setIsCheckoutOpen(true)}
+                disabled={!isMinimumWeightMet}
+                className={`w-full py-4 rounded-2xl font-bold flex items-center justify-center space-x-3 transition-all group overflow-hidden relative cursor-pointer ${
+                  isMinimumWeightMet 
+                    ? "bg-brand-primary-green text-brand-cream hover:shadow-xl" 
+                    : "bg-brand-primary-green/20 text-brand-primary-green/40 cursor-not-allowed border border-brand-primary-green/5"
+                }`}
               >
                 <span className="relative z-10">Proceed to Checkout</span>
                 <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
-                <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                {isMinimumWeightMet && (
+                  <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                )}
               </button>
             </div>
           )}

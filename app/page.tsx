@@ -13,7 +13,7 @@ export default function Home() {
       <TopBar />
       <Header />
       <HeroSection />
-      <MangoGrid limit={6} />
+      <MangoGrid limit={3} />
 
       <WhyUs />
       <CustomerReviews />

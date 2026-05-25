@@ -13,6 +13,12 @@
       "skillPath": "skills/nextjs-seo/SKILL.md",
       "computedHash": "30cde3dd3fb76e54e4eb51027cfae28a15480ae76e2cfb32e5508a1a0d99ff78"
     },
+    "programmatic-seo": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "skillPath": "skills/programmatic-seo/SKILL.md",
+      "computedHash": "a53dc8741b0df338766ef8fc7d704bdfc75b8c8e7e1b1b2a5947d81d8c9508ff"
+    },
     "vercel-react-best-practices": {
       "source": "vercel-labs/agent-skills",
       "sourceType": "github",
